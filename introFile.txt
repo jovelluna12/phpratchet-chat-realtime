@@ -2,7 +2,7 @@ Project Name: RentApartment
 Group 6
 Members: 
 Jovel Christer A. Luna - jovelluna12
-Jan Arnold Uyao - JanUyao
+Jan Arnold Uyao - UyaoJan
 Brynhell Bodollo - Bodollobryn
 Angelito Guibone lll - Azriel018
 
