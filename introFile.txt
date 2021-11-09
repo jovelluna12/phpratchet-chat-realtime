@@ -1,0 +1,9 @@
+Project Name: RentApartment
+Group 6
+Members: 
+Jovel Christer A. Luna - jovelluna12
+Jan Arnold Uyao - JanUyao
+Brynhell Bodollo - Bodollobryn
+Angelito Guibone lll - Azriel018
+
+You are in branch master
