@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap" rel="stylesheet">
 </head>
 <header>
+    <a href="sample.html" id="go_back">Go Back</a>
 </header>
 <body>
     <style>
@@ -17,25 +18,17 @@
             background: #C9956B;
         }
         header{              
-            height: 105px;  
+            height: 90px;  
+            width: 100%;
             background: #BB7944;
         }
-        #img{
-            position: absolute;
-            width: 311px;
-            height: 119px;
-            left: 600px;
-            top: 45px;
-
-            backdrop-filter: blur(4px);
-            border-radius: 141px
-        }
+        
         #go_back{
             position: absolute;
-            width: 247px;
+            width: 240px;
             height: 60px;
             left: 1300px;
-            top: 154px;
+            top: 15px;
             text-decoration: none;
             color: black;
             font-family: 'Reem Kufi', sans-serif;
@@ -46,19 +39,24 @@
             text-align: center;
         }
     </style>
-    <div id="img">
-        <img src="images/rentApartment 5.png" alt="logo">
-    </div>
-    <a href="sample.html" id="go_back">Go Back</a>
+    <?php
+        session_start();
+        $name=$_SESSION["name"];
+        echo '<input type="hidden" id="name" value="'.$name.'">';
+        
+    ?>
+    <form action="#" id="message-form" onsubmit="sendmessage()">
+        <input type="text" id="text-field" placeholder="Send Message"> <input type="submit" value="Send">
+    </form>
 
-    <button onclick="sendmessage()">Send Message</button>
+    
     <script>
         var conn = new WebSocket('ws://localhost:8080');
         conn.onopen = function(e) {
             console.log("Connection established!");
         };
         conn.onmessage = function(e) {
-            console.log(e.data);
+            
         };
         
     </script>
