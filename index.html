@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi&display=swap" rel="stylesheet">
+</head>
+<header>
+</header>
+<body>
+    <style>
+        body{
+            background: #C9956B;
+        }
+        header{              
+            height: 105px;  
+            background: #BB7944;
+        }
+        #img{
+            position: absolute;
+            width: 311px;
+            height: 119px;
+            left: 600px;
+            top: 45px;
+
+            backdrop-filter: blur(4px);
+            border-radius: 141px
+        }
+        #go_back{
+            position: absolute;
+            width: 247px;
+            height: 60px;
+            left: 1300px;
+            top: 154px;
+            text-decoration: none;
+            color: black;
+            font-family: 'Reem Kufi', sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 48px;
+            line-height: 72px;
+            text-align: center;
+        }
+    </style>
+    <div id="img">
+        <img src="images/rentApartment 5.png" alt="logo">
+    </div>
+    <a href="sample.html" id="go_back">Go Back</a>
+
+    <button onclick="sendmessage()">Send Message</button>
+    <script>
+        var conn = new WebSocket('ws://localhost:8080');
+        conn.onopen = function(e) {
+            console.log("Connection established!");
+        };
+        conn.onmessage = function(e) {
+            console.log(e.data);
+        };
+        
+    </script>
+</body>
+</html>

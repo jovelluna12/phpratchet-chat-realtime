@@ -1,0 +1,13 @@
+{
+    "name": "user/phprachet",
+    "description": "practicing php rachet",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Phprachet\\": "src/"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4.4"
+    }
+}
