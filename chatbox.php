@@ -29,6 +29,7 @@
         // var sendername;
 
         const userDetails={
+            type:"user_info",
             userId:userID,
             name:username
         };
@@ -38,52 +39,52 @@
             conn.send(JSON.stringify(userDetails));
             
         };
-        document.getElementById("message-form").addEventListener("onsubmit",function(e){
-            e.preventDefault();
-        });
 
         conn.onmessage=function(e){
             var message = JSON.parse(e.data);
            
             if (message.msg_type=="connect_notice"){
                 console.log("Server Notice Received");
+
             }      
-            // else if(typeof message.userId != 'undefined'){
-            //     senderID=message.userId;
-            //     sendername=message.name;
-            //     console.log(senderID+" "+sendername);
-            // }    
+            else if(typeof message.userId != 'undefined'){
+                senderID=message.userId;
+                sendername=message.name;
+                //console.log(senderID+" "+sendername);
+            }    
             else if(message.type="new message"){
-                if (username===message.sender){
-                    console.log("This Message is from you");
+                var sendername=message.sender;
+                if (message.sender==username){
+                    console.log("This Message is from you!");
+                    sendername="You";
                 }
-                if (message.msg!="undefined" & message.sender!="undefined"){
-                    var sendername=message.sender;
-                    //console.log(message.sender);
-                    var sender="From: "+sendername;
-                    var msg="Message: "+message.msg;
+                
+                var sender="From: "+sendername;
+                var msg="Message: "+message.msg;
 
-                    const newMsg=document.createElement("div");
-                    const newSpan=document.createElement("span");
-                    const newCnt=document.createElement("p");
-                    const separate=document.createElement("hr");
+                const newMsg=document.createElement("div");
+                const newSpan=document.createElement("span");
+                const newCnt=document.createElement("p");
+                const separate=document.createElement("hr");
 
-                    const senderPane=document.createTextNode(sender);
-                    const content=document.createTextNode(msg);
+                const senderPane=document.createTextNode(sender);
+                const content=document.createTextNode(msg);
 
-                    newSpan.appendChild(senderPane);
-                    newCnt.appendChild(content);
-                    
-                    newMsg.appendChild(newSpan);
-                    newMsg.appendChild(newCnt);
+                newSpan.appendChild(senderPane);
+                newCnt.appendChild(content);
+                
+                newMsg.appendChild(newSpan);
+                newMsg.appendChild(newCnt);
 
-                    const div=document.getElementById("displayReceived");
-                    document.body.insertBefore(newMsg,div);
-                    document.body.insertBefore(separate,newMsg);
+                const div=document.getElementById("displayReceived");
+                document.body.insertBefore(newMsg,div);
+                document.body.insertBefore(separate,newMsg);
 
-                }
             }
         }
+        document.getElementById("message-form").addEventListener("onsubmit",function(e){
+            e.preventDefault();
+        });
         function sendmessage(){
             var input=document.getElementById("text-field").value;
             
@@ -100,6 +101,7 @@
                 document.getElementById("message-form").reset();
                 conn.send(JSON.stringify(data));
             }
+
         }
     </script>
 </body>
