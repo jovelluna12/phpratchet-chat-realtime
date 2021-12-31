@@ -18,54 +18,79 @@
     </form>
 
     <div id="displayReceived"></div>
-
+    
 
     <script>
         var conn = new WebSocket('ws://localhost:8080');
-        conn.onopen = function(e) {
-            console.log("Connection established!");
+        const userID=Math.floor(Math.random() * 10000) + 1000;
+        const username=document.getElementById("name").value;
+
+        // var senderID;
+        // var sendername;
+
+        const userDetails={
+            userId:userID,
+            name:username
         };
 
-        conn.onmessage=function(e){
-            var message = JSON.parse(e.data);
-
-            // var msg="\nFrom: "+message.sender+"\nMessage: "+message.msg;
-
-            // var content=document.createTextNode(msg);
-            // div.appendChild(content);
-
-            var sendername=message.sender;
-            console.log(message.sender);
-            var sender="From: "+sendername;
-            var msg="Message: "+message.msg;
-
-            const newMsg=document.createElement("div");
-            const newSpan=document.createElement("span");
-            const newCnt=document.createElement("p");
-
-            const senderPane=document.createTextNode(sender);
-            const content=document.createTextNode(msg);
-
-            newSpan.appendChild(senderPane);
-            newCnt.appendChild(content);
+        conn.onopen = function(e) { 
+            console.log("Connection established!");
+            conn.send(JSON.stringify(userDetails));
             
-            newMsg.appendChild(newSpan);
-            newMsg.appendChild(newCnt);
-
-            const div=document.getElementById("displayReceived");
-            document.body.insertBefore(newMsg,div);
-
-
-        }
+        };
         document.getElementById("message-form").addEventListener("onsubmit",function(e){
             e.preventDefault();
         });
+
+        conn.onmessage=function(e){
+            var message = JSON.parse(e.data);
+           
+            if (message.msg_type=="connect_notice"){
+                console.log("Server Notice Received");
+            }      
+            // else if(typeof message.userId != 'undefined'){
+            //     senderID=message.userId;
+            //     sendername=message.name;
+            //     console.log(senderID+" "+sendername);
+            // }    
+            else if(message.type="new message"){
+                if (username===message.sender){
+                    console.log("This Message is from you");
+                }
+                if (message.msg!="undefined" & message.sender!="undefined"){
+                    var sendername=message.sender;
+                    //console.log(message.sender);
+                    var sender="From: "+sendername;
+                    var msg="Message: "+message.msg;
+
+                    const newMsg=document.createElement("div");
+                    const newSpan=document.createElement("span");
+                    const newCnt=document.createElement("p");
+                    const separate=document.createElement("hr");
+
+                    const senderPane=document.createTextNode(sender);
+                    const content=document.createTextNode(msg);
+
+                    newSpan.appendChild(senderPane);
+                    newCnt.appendChild(content);
+                    
+                    newMsg.appendChild(newSpan);
+                    newMsg.appendChild(newCnt);
+
+                    const div=document.getElementById("displayReceived");
+                    document.body.insertBefore(newMsg,div);
+                    document.body.insertBefore(separate,newMsg);
+
+                }
+            }
+        }
         function sendmessage(){
             var input=document.getElementById("text-field").value;
-            const sender_name=document.getElementById("name").value;
             
             const data={
-                sender:sender_name,
+                type:"new message",
+                senderID:userID,
+                sender:username,
                 msg:input
             };
             if (input==""){
@@ -73,27 +98,8 @@
             }
             else{
                 document.getElementById("message-form").reset();
-
-                // var sendername="You";
-                // var sender="From: "+sendername;
-                // var msg="Message: "+input;
-
-                // const newMsg=document.createElement("div");
-                // const newSpan=document.createElement("span");
-                // const newCnt=document.createElement("p");
-
-                // const senderPane=document.createTextNode(sender);
-                // const content=document.createTextNode(msg);
-
-                // newSpan.appendChild(senderPane);
-                // newCnt.appendChild(content);
-
-                // const div=document.getElementById("displayReceived");
-                // document.body.insertBefore(newMsg, div);
-
                 conn.send(JSON.stringify(data));
             }
-
         }
     </script>
 </body>

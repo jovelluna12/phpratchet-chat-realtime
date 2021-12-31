@@ -2,6 +2,7 @@
 namespace Phprachet;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+require("chatSession.php");
 
 class app implements MessageComponentInterface{
     protected $clients;
@@ -13,13 +14,20 @@ class app implements MessageComponentInterface{
     public function onOpen(ConnectionInterface $conn){
         $this->clients->attach($conn);
         echo "\nConnection Detected from ({$conn->resourceId})";
+        $server_notice=array("msg_type"=>"connect_notice","new_client"=>$conn->resourceId);
+        $notice=json_encode($server_notice);
         
+        $conn->send($notice);
     }
     public function onMessage(ConnectionInterface $from, $msg){
+
+        $data=json_decode($msg);
+        $chatsession=new \chatsession;
+
+        $chatsession->savetoDb();
+        
         foreach ($this->clients as $client) {
-            if ($from !== $client) {
-                $client->send($msg);
-            }
+            $client->send($msg);
         }    
     }
     public function onClose(ConnectionInterface $conn){
