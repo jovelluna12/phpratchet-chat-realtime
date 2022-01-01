@@ -36,26 +36,20 @@
 
         conn.onopen = function(e) { 
             console.log("Connection established!");
-            conn.send(JSON.stringify(userDetails));
             
         };
 
         conn.onmessage=function(e){
             var message = JSON.parse(e.data);
-           
-            if (message.msg_type=="connect_notice"){
-                console.log("Server Notice Received");
 
-            }      
-            else if(typeof message.userId != 'undefined'){
+            if(typeof message.userId != 'undefined'){
                 senderID=message.userId;
                 sendername=message.name;
                 //console.log(senderID+" "+sendername);
             }    
-            else if(message.type="new message"){
+            else if(message.type==="new message"){
                 var sendername=message.sender;
-                if (message.sender==username){
-                    console.log("This Message is from you!");
+                if (message.sender===username){
                     sendername="You";
                 }
                 
@@ -81,6 +75,7 @@
                 document.body.insertBefore(separate,newMsg);
 
             }
+            
         }
         document.getElementById("message-form").addEventListener("onsubmit",function(e){
             e.preventDefault();
@@ -94,12 +89,14 @@
                 sender:username,
                 msg:input
             };
-            if (input==""){
+            if (input===""){
                 console.log("empty");
             }
             else{
                 document.getElementById("message-form").reset();
+                conn.send(JSON.stringify(userDetails));
                 conn.send(JSON.stringify(data));
+
             }
 
         }

@@ -1,6 +1,6 @@
 <?php 
 
-class chatsession{
+class ChatSession{
 
     private $chatId;
     private $sender;
