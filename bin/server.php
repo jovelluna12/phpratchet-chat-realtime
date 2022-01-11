@@ -16,4 +16,3 @@ use Phprachet\app;
     );
 
     $server->run();
-?>
