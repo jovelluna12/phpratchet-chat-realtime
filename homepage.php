@@ -1,12 +1,12 @@
 <?php
-    include("rent_Connection.php");
-    include("faction.php");
-
+    session_start();
+    include("dbConnect.php");
+    include("functions.php");
     //$user_data = check_login($con);
+
+    $username=$_SESSION['Username'];
+    
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html>
@@ -20,8 +20,10 @@
     </style>
     </head>
     <body>
+        <span><?php echo $username ?></span>
         <div class="wrapper">
-            <h2>Done</h2>
-            <p>finally done</p>
+            <a href="messageRoom.php">Messages</a><br>
+            <a href="rent_login.php">Log out</a>
 
+        </div>
     </body>

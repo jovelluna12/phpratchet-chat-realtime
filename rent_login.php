@@ -1,18 +1,18 @@
 <?php
-include("rent_Connection.php");
+session_start();
+include("dbConnect.php");
 
 
 if($_SERVER['REQUEST_METHOD']== "POST"){
 
     $Username = $_POST["Username"];
-    
     $Password = $_POST["Password"];
         
         if( !empty($Username) && 
             !empty($Password)
         ){
                 $query = "Select * from users Where Username = '$Username' limit 1";
-                $result = mysqli_query($con, $query);
+                $result = mysqli_query($connect, $query);
 
             if($result)
             {
@@ -22,6 +22,8 @@ if($_SERVER['REQUEST_METHOD']== "POST"){
                     if($userdata['Password']===$Password)
                     {
                         $_SESSION['UserID'] = $userdata['UserID'];
+                        $_SESSION['Username']=$Username;
+                        $_SESSION["name"]=$userdata['Name'];
                         header("Location: homepage.php");
                         die;
                     }

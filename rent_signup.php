@@ -1,7 +1,7 @@
 <?php 
 
-require("rent_Connection.php");
-include("faction.php");
+require("dbConnect.php");
+include("functions.php");
 
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         $Username = $_POST['Username'];
