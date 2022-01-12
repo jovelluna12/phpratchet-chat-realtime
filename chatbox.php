@@ -35,13 +35,14 @@
 
         conn.onmessage=function(e){
             var message = JSON.parse(e.data);
-            if (message.sender===username){
-                sendername="You";
-            }
-            else{
-                sendername=message.sender;
-            }
-                if (message.sendTo===username){
+            
+                if (message.sendTo===username || message.sender===username){
+                    if (message.sender===username){
+                        sendername="You";
+                    }
+                    else{
+                        sendername=message.sender;
+                    }
 
                     console.log("This Message is intended for You");
                     var sender="From: "+sendername;
@@ -92,7 +93,6 @@
                 conn.send(JSON.stringify(data));
 
             }
-
         }
     </script>
 </body>
